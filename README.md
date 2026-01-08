@@ -1,93 +1,136 @@
-# Bonus_Automatentheorie
+# Bonus Automatentheorie
 
+Ein Python-Programm zur Leerheitspruefung von (ε-)NFAs mit Ausgabe
+eines konkreten akzeptierten Wortes, falls die Sprache nicht leer ist.
 
+## Mathematische Grundlage
 
-## Getting started
+Gegeben ist ein endlicher Automat A = (Q, Σ, Δ, I, F).
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- Q: endliche Menge von Zustaenden
+- Σ: Alphabet
+- I ⊆ Q: Menge der Startzustaende
+- F ⊆ Q: Menge der akzeptierenden (finalen) Zustaende
+- Δ: Transitionsrelation. Sie kann sein
+  (1) NFA ohne Epsilon: Δ ⊆ Q × Σ × Q
+  (2) NFA mit Epsilon:  Δ ⊆ Q × (Σ ∪ {ε}) × Q
+  Verwenden Sie bei Bedarf ε als Epsilon-Symbol.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Aufgabe (Leerheit mit Zeuge):
+Eingabe: A
+Ausgabe:
+- Falls L(A) ≠ ∅, gib ein Beispielwort w ∈ L(A) aus
+- Sonst gib ⊥ aus
 
-## Add your files
+Algorithmus (BFS + Vorgaenger-Rekonstruktion):
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+1) Falls I ∩ F ≠ ∅:
+   gib ε zurueck (leeres Wort akzeptiert)
 
+2) Initialisierung:
+   queue := alle Zustaende in I (Multi-Source-BFS)
+   visited := I
+   pred := leere Abbildung
+     pred[q] speichert (p, a) mit:
+     q wurde zuerst vom Vorgaenger p ueber Label a erreicht
+     wobei a ∈ Σ oder a = ε
+
+3) Solange queue nicht leer:
+   p := pop_front(queue)
+
+   Fuer jede Transition (p, a, q) in Δ:
+     Falls q nicht in visited:
+       visited.add(q)
+       pred[q] := (p, a)
+
+       Falls q ∈ F:
+         // rekonstruiere ein Zeugenwort
+         w_symbols := leere Liste
+         cur := q
+         Solange cur in pred:
+           (prev, sym) := pred[cur]
+           Falls sym ≠ ε:
+             sym an w_symbols anhaengen
+           cur := prev
+         w_symbols umdrehen
+         w := alle Symbole in w_symbols konkatenieren
+         gib w zurueck (w kann ε sein, wenn nur ε-Kanten benutzt wurden)
+
+     queue hinten anfuegen
+
+4) Wenn keine finalen Zustaende erreicht wurden:
+   gib ⊥ zurueck
+
+Korrektheitsintuition:
+- visited ist genau die Menge der von I erreichbaren Zustaende.
+- L(A) ≠ ∅ genau dann, wenn ein Zustand in F von I erreichbar ist.
+- pred speichert einen erreichbaren Pfad, daher liefert die Rekonstruktion ein
+  Wort, das diesen Pfad beschriftet.
+
+## Dateiformat (JSON)
+
+Eingaben werden als JSON gelesen. Die Transitionen koennen entweder als Liste
+von Tripeln oder als Adjazenz-Dict angegeben werden. Epsilon wird als `""`,
+`null`, `eps`, `epsilon` oder `ε` akzeptiert.
+
+Beispiel (Listenformat):
+
+```json
+{
+  "Q": ["q0", "q1", "q2"],
+  "Sigma": ["a", "b"],
+  "I": ["q0"],
+  "F": ["q2"],
+  "Delta": [
+    ["q0", "a", "q1"],
+    ["q1", "b", "q2"]
+  ]
+}
 ```
-cd existing_repo
-git remote add origin https://git.informatik.uni-leipzig.de/lt23emur/bonus_automatentheorie.git
-git branch -M main
-git push -uf origin main
+
+Beispiel (Adjazenzformat):
+
+```json
+{
+  "Q": ["q0", "q1", "q2", "q3"],
+  "Sigma": ["a", "b"],
+  "I": ["q0"],
+  "F": ["q3"],
+  "Delta": {
+    "q0": {
+      "a": ["q1", "q2"],
+      "eps": "q3"
+    }
+  }
+}
 ```
 
-## Integrate with your tools
+## Ausfuehrung
 
-- [ ] [Set up project integrations](https://git.informatik.uni-leipzig.de/lt23emur/bonus_automatentheorie/-/settings/integrations)
+Im Projektordner:
 
-## Collaborate with your team
+```bash
+python3 automaton_emptiness.py --demo
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+Mit JSON-Datei:
 
-## Test and Deploy
+```bash
+python3 automaton_emptiness.py --file test_inputs/t3_simple_word.json
+```
 
-Use the built-in continuous integration in GitLab.
+Oder per stdin:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```bash
+cat test_inputs/t3_simple_word.json | python3 automaton_emptiness.py
+```
 
-***
+## Beispieleingaben
 
-# Editing this README
+Beispiele liegen in `test_inputs/`. Kurztest:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```bash
+python3 automaton_emptiness.py --file test_inputs/t1_initial_is_final.json
+python3 automaton_emptiness.py --file test_inputs/t2_unreachable_final.json
+python3 automaton_emptiness.py --file test_inputs/t3_simple_word.json
+```
