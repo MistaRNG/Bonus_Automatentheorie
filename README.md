@@ -110,19 +110,19 @@ Beispiel (Adjazenzformat):
 Im Projektordner:
 
 ```bash
-python3 automaton_emptiness.py --demo
+python3 b1.py --demo
 ```
 
 Mit JSON-Datei:
 
 ```bash
-python3 automaton_emptiness.py --file test_inputs/t3_simple_word.json
+python3 b1.py --file test_inputs/t3_simple_word.json
 ```
 
 Oder per stdin:
 
 ```bash
-cat test_inputs/t3_simple_word.json | python3 automaton_emptiness.py
+cat test_inputs/t3_simple_word.json | python3 b1.py
 ```
 
 ## Beispieleingaben
