@@ -3,6 +3,30 @@
 Ein Python-Programm zur Leerheitspruefung von (ε-)NFAs mit Ausgabe
 eines konkreten akzeptierten Wortes, falls die Sprache nicht leer ist.
 
+## Was ist das Leerheitsproblem?
+
+Beim Leerheitsproblem fragt man: Ist die von einem Automaten akzeptierte Sprache
+leer, also gilt L(A) = ∅? Falls nicht, moechte man oft ein Beispielwort w mit
+w ∈ L(A). In dieser Aufgabe wird genau das entschieden und bei Nicht-Leerheit
+ein Zeuge (Beispielwort) ausgegeben.
+
+## Entscheidungen fuer die Abgabe
+
+- Verwendetes LLM: OpenAI Codex (GPT-5.2-Codex).
+  - Grund: Zum Aufgabenzeitpunkt ist GPT-5.2-Codex das leistungsfaehigste Modell
+    fuer produktives Arbeiten in der IDE (Code-Vervollstaendigung, Refactoring,
+    schnelle Iteration von Implementierungsdetails, Debugging-Hinweise).
+    Dem Modell wurde ein zuvor selbsterarbeiteter, mathematisch exakter
+    Pseudocode (BFS-Erreichbarkeitspruefung mit Vorgaengerrekonstruktion zur
+    Witness-Erzeugung) uebergeben, und die Implementierung wurde daran
+    ausgerichtet. Der Algorithmus selbst folgt dem in der Aufgabenstellung
+    beschriebenen BFS-Vorgehen und wurde im Code nachvollziehbar umgesetzt.
+
+- Programmiersprache: Python.
+  - Grund: gut lesbar, leicht ausfuehrbar, und die BFS-Logik laesst sich knapp
+    und klar ausdruecken; JSON-Eingaben koennen ohne Zusatzbibliotheken geparst
+    werden.
+
 ## Mathematische Grundlage
 
 Gegeben ist ein endlicher Automat A = (Q, Σ, Δ, I, F).
