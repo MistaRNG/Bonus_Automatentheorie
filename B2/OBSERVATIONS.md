@@ -12,50 +12,50 @@
 
 ## Tests (klein bis groß)
 
-### `test_inputs/t1_initial_is_final.json` → Ausgabe: `⊥`
-- **Automat**: Ein einziger Zustand `q0`, der sowohl Start- als auch Endzustand ist. Kein Alphabet, keine Transitionen.
+### `t1_initial_is_final.json`
+- **Automat**: Ein einziger Zustand $q0$, der sowohl Start- als auch Endzustand ist. Kein Alphabet, keine Transitionen.
 - **$L(A)$**: $\{\varepsilon\}$ (nur das leere Wort wird akzeptiert)
 - **$L(A)^c$**: Alle Wörter außer $\varepsilon$, aber da $\Sigma = \emptyset$, gibt es keine anderen Wörter → $L(A)^c = \emptyset$
 - **Ergebnis**: $\bot$ 
 
-### `test_inputs/t2_unreachable_final.json` → Ausgabe: `ε`
-- **Automat**: Zwei Zustände `q0` (Start) und `q1` (Final), aber keine Transitionen.
+### `t2_unreachable_final.json`
+- **Automat**: Zwei Zustände $q0$ (Start) und $q1$ (Final), aber keine Transitionen.
 - **$L(A)$**: $\emptyset$ (kein Endzustand erreichbar)
 - **$L(A)^c$**: $\Sigma^* = \{ε, a, aa, aaa, \ldots\}$ (alle Wörter)
 - **Ergebnis**: $\varepsilon$
 
-### `test_inputs/t3_simple_word.json` → Ausgabe: `ε`
-- **Automat**: Linearer Automat `q0 --a--> q1 --b--> q2` (nur `q2` ist final)
-- **$L(A)$**: $\{ab\}$ (nur das Wort `ab` wird akzeptiert)
+### `t3_simple_word.json`
+- **Automat**: Linearer Automat $q_0 \xrightarrow{a} q_1 \xrightarrow{b} q_2$ (nur $q_2$ ist final)
+- **$L(A)$**: $\{ab\}$ (nur das Wort $ab$ wird akzeptiert)
 - **$L(A)^c$**: $\Sigma^* \setminus \{ab\} = \{ε, a, b, aa, ba, bb, aaa, \ldots\}$
 - **Ergebnis**: $\varepsilon$
 
-### `test_inputs/t4_epsilon_path.json` → Ausgabe: `a`
-- **Automat**: `q0` (Start) mit $\varepsilon$-Transition zu `q1` (Final)
-- **$L(A)$**: $\{\varepsilon\}$ (nur das leere Wort wird akzeptiert, da $\varepsilon$-Hülle von `q0` den Endzustand `q1` enthält)
+### `t4_epsilon_path.json`
+- **Automat**: $q0$ (Start) mit $\varepsilon$-Transition zu $q1$ (Final)
+- **$L(A)$**: $\{\varepsilon\}$ (nur das leere Wort wird akzeptiert, da $\varepsilon$-Hülle von $q0$ den Endzustand $q1$ enthält)
 - **$L(A)^c$**: $\Sigma^* \setminus \{\varepsilon\} = \{a, aa, aaa, \ldots\}$ (alle nicht-leeren Wörter)
-- **Ergebnis**: `a` 
+- **Ergebnis**: $a$ 
 
-### `test_inputs/t5_nfa_branch.json` → Ausgabe: `ε`
+### `t5_nfa_branch.json`
 - **Automat**: NFA mit Verzweigungen (mehrere Transitionen möglich)
 - **$L(A)$**: Enthält mindestens ein nicht-leeres Wort
 - **$L(A)^c$**: Enthält $\varepsilon$, da der Startzustand kein Endzustand ist
 - **Ergebnis**: $\varepsilon$ 
 
-### `test_inputs/t6_adj_dict.json` → Ausgabe: `ε`
+### `t6_adj_dict.json`
 - **Automat**: Verwendet Adjazenz-Dictionary-Format für Transitionen
-- **$L(A)$**: Enthält mindestens ein nicht-leeres Wort (z.B. `b`)
+- **$L(A)$**: Enthält mindestens ein nicht-leeres Wort (z.B. $b$)
 - **$L(A)^c$**: Enthält $\varepsilon$
 - **Ergebnis**: $\varepsilon$ 
 
-### `test_inputs/t7_large.json` → Ausgabe: `ε`
+### `t7_large.json`
 - **Automat**: Größeres Beispiel mit mehreren Zuständen, Start- und Endzuständen
 - **$L(A)$**: Komplexere Sprache mit mehreren akzeptierten Wörtern
 - **$L(A)^c$**: Enthält $\varepsilon$, da nicht alle Startzustände gleichzeitig Endzustände sind
 - **Ergebnis**: $\varepsilon$
 
-### `test_inputs/t8_no_path.json` → Ausgabe: `a`
-- **Automat**: Ein Zustand `q0`, der sowohl Start- als auch Endzustand ist. Alphabet $\{a, b\}$, aber keine Transitionen.
+### `t8_no_path.json`
+- **Automat**: Ein Zustand $q0$, der sowohl Start- als auch Endzustand ist. Alphabet $\{a, b\}$, aber keine Transitionen.
 - **$L(A)$**: $\{\varepsilon\}$ (nur das leere Wort wird akzeptiert)
 - **$L(A)^c$**: $\Sigma^* \setminus \{\varepsilon\} = \{a, b, aa, ab, ba, bb, \ldots\}$ (alle nicht-leeren Wörter)
-- **Ergebnis**: `a`
+- **Ergebnis**: $a$
