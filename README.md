@@ -45,9 +45,10 @@ werden.
 
 - `B1/b1.py`: Leerheitsproblem (Zeuge) fuer einen Automaten
 - `B2/b2.py`: Leerheitsproblem fuer das Komplement (Zeuge)
-- `B3/intersection.py`: Leerheitsproblem fuer den Schnitt zweier Automaten (Zeuge)
+- `B3/b3.py`: Leerheitsproblem fuer den Schnitt zweier Automaten (Zeuge)
+- `B4/b4.py`: Inklusionspruefung mit Gegenbeispiel (Zeuge)
 - `shared/automaton_common.py`: gemeinsame Hilfsfunktionen (Parsing, ε, Ausgabe)
-- `test_inputs/`: JSON-Beispiele fuer B1/B2
+- `test_inputs/`: JSON-Beispiele fuer B1/B2 sowie gemeinsame Paar-Beispiele fuer B3/B4
 
 ## Dateiformat (JSON)
 
@@ -124,19 +125,37 @@ python3 B2/b2.py --file test_inputs/t3_simple_word.json
 ### B3
 
 ```bash
-python3 B3/intersection.py --demo
+python3 B3/b3.py --demo
 ```
 
 Mit zwei JSON-Dateien:
 
 ```bash
-python3 B3/intersection.py --file1 path/to/A1.json --file2 path/to/A2.json
+python3 B3/b3.py --file1 path/to/A1.json --file2 path/to/A2.json
 ```
 
 Oder als JSON-Paar von stdin:
 
 ```bash
-cat pair.json | python3 B3/intersection.py
+cat pair.json | python3 B3/b3.py
+```
+
+### B4
+
+```bash
+python3 B4/b4.py --demo
+```
+
+Mit zwei JSON-Dateien:
+
+```bash
+python3 B4/b4.py --file1 path/to/A1.json --file2 path/to/A2.json
+```
+
+Oder als JSON-Paar von stdin:
+
+```bash
+cat pair.json | python3 B4/b4.py
 ```
 
 ## Beispieleingaben
@@ -178,11 +197,27 @@ done
 ### B3
 
 ```bash
-for f in test_inputs/b3_intersection_aa.json \
-         test_inputs/b3_intersection_empty.json \
-         test_inputs/b3_intersection_epsilon.json \
-         test_inputs/b3_intersection_is_epsilon.json; do
+for f in test_inputs/b3b4_intersection_aa.json \
+         test_inputs/b3b4_intersection_empty.json \
+         test_inputs/b3b4_intersection_epsilon.json \
+         test_inputs/b3b4_intersection_is_epsilon.json \
+         test_inputs/b3b4_inclusion_subset.json \
+         test_inputs/b3b4_inclusion_counterexample.json \
+         test_inputs/b3b4_inclusion_epsilon.json; do
   python3 B3/b3.py --pair "$f"
 done
 ```
 
+### B4
+
+```bash
+for f in test_inputs/b3b4_intersection_aa.json \
+         test_inputs/b3b4_intersection_empty.json \
+         test_inputs/b3b4_intersection_epsilon.json \
+         test_inputs/b3b4_intersection_is_epsilon.json \
+         test_inputs/b3b4_inclusion_subset.json \
+         test_inputs/b3b4_inclusion_counterexample.json \
+         test_inputs/b3b4_inclusion_epsilon.json; do
+  python3 B4/b4.py --pair "$f"
+done
+```
