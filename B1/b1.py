@@ -1,58 +1,19 @@
 #!/usr/bin/env python3
 import argparse
-import json
 import sys
 from collections import deque
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-EPSILON_SYMBOL = "\u03b5"  # Greek small epsilon
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-
-def _normalize_symbol(sym: Any) -> Optional[str]:
-    if sym is None:
-        return None
-    if isinstance(sym, str):
-        s = sym.strip()
-        if s == "" or s.lower() in {"eps", "epsilon"} or s == EPSILON_SYMBOL:
-            return None
-        return s
-    return str(sym)
-
-
-def _parse_transitions(delta: Any) -> List[Tuple[Any, Optional[str], Any]]:
-    transitions: List[Tuple[Any, Optional[str], Any]] = []
-    if isinstance(delta, dict):
-        # Allow adjacency dict: {state: {symbol: [q1, q2]}}
-        for p, sym_map in delta.items():
-            if not isinstance(sym_map, dict):
-                raise ValueError("Delta dict values must be dicts of symbol -> targets.")
-            for sym, targets in sym_map.items():
-                sym_norm = _normalize_symbol(sym)
-                if isinstance(targets, (list, tuple, set)):
-                    for q in targets:
-                        transitions.append((p, sym_norm, q))
-                else:
-                    transitions.append((p, sym_norm, targets))
-        return transitions
-
-    if not isinstance(delta, (list, tuple)):
-        raise ValueError("Delta must be a list/tuple or adjacency dict.")
-
-    for item in delta:
-        if isinstance(item, (list, tuple)) and len(item) == 3:
-            p, a, q = item
-            transitions.append((p, _normalize_symbol(a), q))
-        elif isinstance(item, dict):
-            p = item.get("from")
-            a = item.get("symbol")
-            q = item.get("to")
-            if p is None or q is None:
-                raise ValueError("Transition dict must have 'from' and 'to'.")
-            transitions.append((p, _normalize_symbol(a), q))
-        else:
-            raise ValueError("Each transition must be a 3-tuple/list or a dict.")
-    return transitions
-
+from shared.automaton_common import (
+    format_witness,
+    parse_transitions,
+    read_json_input,
+)
 
 def find_witness(
     states: Iterable[Any],
@@ -65,7 +26,7 @@ def find_witness(
     _ = list(alphabet)
     I = set(initials)
     F = set(finals)
-    transitions = _parse_transitions(delta)
+    transitions = parse_transitions(delta)
 
     if I & F:
         return ""
@@ -97,14 +58,6 @@ def find_witness(
                 return "".join(symbols)
             queue.append(q)
     return None
-
-
-def _read_json_input(path: Optional[str]) -> Dict[str, Any]:
-    if path:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return json.load(sys.stdin)
-
 
 def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -138,7 +91,7 @@ def _demo_automaton() -> Dict[str, Any]:
 
 def main(argv: Sequence[str]) -> int:
     args = _parse_args(argv)
-    data = _demo_automaton() if args.demo else _read_json_input(args.file)
+    data = _demo_automaton() if args.demo else read_json_input(args.file)
 
     try:
         witness = find_witness(
@@ -148,12 +101,7 @@ def main(argv: Sequence[str]) -> int:
         print(f"Input error: {exc}", file=sys.stderr)
         return 2
 
-    if witness is None:
-        print("\u22a5")  # bottom symbol
-    elif witness == "":
-        print(EPSILON_SYMBOL)
-    else:
-        print(witness)
+    print(format_witness(witness))
     return 0
 
 

@@ -105,6 +105,14 @@ Korrektheitsintuition:
 - pred speichert einen erreichbaren Pfad, daher liefert die Rekonstruktion ein
   Wort, das diesen Pfad beschriftet.
 
+## Projektstruktur (vereinheitlicht)
+
+- `B1/b1.py`: Leerheitsproblem (Zeuge) fuer einen Automaten
+- `B2/b2.py`: Leerheitsproblem fuer das Komplement (Zeuge)
+- `B3/intersection.py`: Leerheitsproblem fuer den Schnitt zweier Automaten (Zeuge)
+- `shared/automaton_common.py`: gemeinsame Hilfsfunktionen (Parsing, ε, Ausgabe)
+- `test_inputs/`: JSON-Beispiele fuer B1/B2
+
 ## Dateiformat (JSON)
 
 Eingaben werden als JSON gelesen. Die Transitionen koennen entweder als Liste
@@ -145,30 +153,100 @@ Beispiel (Adjazenzformat):
 
 ## Ausfuehrung
 
-Im Projektordner:
+Im Projektordner (Repo-Root):
+
+### B1
 
 ```bash
-python3 b1.py --demo
+python3 B1/b1.py --demo
 ```
 
 Mit JSON-Datei:
 
 ```bash
-python3 b1.py --file test_inputs/t3_simple_word.json
+python3 B1/b1.py --file test_inputs/t3_simple_word.json
 ```
 
 Oder per stdin:
 
 ```bash
-cat test_inputs/t3_simple_word.json | python3 b1.py
+cat test_inputs/t3_simple_word.json | python3 B1/b1.py
+```
+
+### B2
+
+```bash
+python3 B2/b2.py --demo
+```
+
+Mit JSON-Datei:
+
+```bash
+python3 B2/b2.py --file test_inputs/t3_simple_word.json
+```
+
+### B3
+
+```bash
+python3 B3/intersection.py --demo
+```
+
+Mit zwei JSON-Dateien:
+
+```bash
+python3 B3/intersection.py --file1 path/to/A1.json --file2 path/to/A2.json
+```
+
+Oder als JSON-Paar von stdin:
+
+```bash
+cat pair.json | python3 B3/intersection.py
 ```
 
 ## Beispieleingaben
 
-Beispiele liegen in `test_inputs/`. Kurztest:
+Beispiele liegen in `test_inputs/`.
+
+## Testdaten pro Aufgabe (copy-paste)
+
+### B1
 
 ```bash
-python3 automaton_emptiness.py --file test_inputs/t1_initial_is_final.json
-python3 automaton_emptiness.py --file test_inputs/t2_unreachable_final.json
-python3 automaton_emptiness.py --file test_inputs/t3_simple_word.json
+for f in test_inputs/t1_initial_is_final.json \
+         test_inputs/t2_unreachable_final.json \
+         test_inputs/t3_simple_word.json \
+         test_inputs/t4_epsilon_path.json \
+         test_inputs/t5_nfa_branch.json \
+         test_inputs/t6_adj_dict.json \
+         test_inputs/t7_large.json \
+         test_inputs/t8_no_path.json; do
+  python3 B1/b1.py --file "$f"
+done
 ```
+
+### B2
+
+```bash
+for f in test_inputs/t1_initial_is_final.json \
+         test_inputs/t2_unreachable_final.json \
+         test_inputs/t3_simple_word.json \
+         test_inputs/t4_epsilon_path.json \
+         test_inputs/t5_nfa_branch.json \
+         test_inputs/t6_adj_dict.json \
+         test_inputs/t7_large.json \
+         test_inputs/t8_no_path.json; do
+  python3 B2/b2.py --file "$f"
+done
+```
+
+### B3
+
+```bash
+for f in test_inputs/b3_intersection_aa.json \
+         test_inputs/b3_intersection_empty.json \
+         test_inputs/b3_intersection_epsilon.json \
+         test_inputs/b3_intersection_is_epsilon.json; do
+  python3 B3/b3.py --pair "$f"
+done
+```
+

@@ -1,80 +1,22 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
+import sys
 from collections import deque
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
-EPSILON_SYMBOL = "\u03b5"  # 'ε'
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-
-def _normalize_symbol(sym: Any) -> Optional[str]:
-    """Map epsilon-like encodings to None; keep other symbols as stripped strings."""
-    if sym is None:
-        return None
-    if isinstance(sym, str):
-        s = sym.strip()
-        if s == "" or s.lower() in {"eps", "epsilon"} or s == EPSILON_SYMBOL:
-            return None
-        return s
-    return str(sym)
-
-
-def _parse_transitions(delta: Any) -> List[Tuple[Any, Optional[str], Any]]:
-    """
-    Accept either:
-      - list/tuple of [p, a, q] or {"from": p, "symbol": a, "to": q}
-      - adjacency dict {p: {symbol: [q1, q2]}} (targets may be single or list-like)
-    Returns list of (p, normalized_symbol_or_None, q).
-    """
-    transitions: List[Tuple[Any, Optional[str], Any]] = []
-
-    if isinstance(delta, dict):
-        for p, sym_map in delta.items():
-            if not isinstance(sym_map, dict):
-                raise ValueError("Delta dict values must be dicts of symbol -> targets.")
-            for sym, targets in sym_map.items():
-                a = _normalize_symbol(sym)
-                if isinstance(targets, (list, tuple, set)):
-                    for q in targets:
-                        transitions.append((p, a, q))
-                else:
-                    transitions.append((p, a, targets))
-        return transitions
-
-    if not isinstance(delta, (list, tuple)):
-        raise ValueError("Delta must be a list/tuple or adjacency dict.")
-
-    for item in delta:
-        if isinstance(item, (list, tuple)) and len(item) == 3:
-            p, a, q = item
-            transitions.append((p, _normalize_symbol(a), q))
-        elif isinstance(item, dict):
-            p = item.get("from")
-            a = item.get("symbol")
-            q = item.get("to")
-            if p is None or q is None:
-                raise ValueError("Transition dict must have 'from' and 'to'.")
-            transitions.append((p, _normalize_symbol(a), q))
-        else:
-            raise ValueError("Each transition must be a 3-tuple/list or a dict.")
-    return transitions
-
-
-def _index_transitions(
-    transitions: Sequence[Tuple[Any, Optional[str], Any]]
-) -> Tuple[
-    Dict[Any, List[Any]],  # eps adjacency: p -> [q,...]
-    Dict[Any, Dict[str, List[Any]]],  # sym adjacency: p -> {a: [q,...]}
-]:
-    eps_adj: Dict[Any, List[Any]] = {}
-    sym_adj: Dict[Any, Dict[str, List[Any]]] = {}
-
-    for p, a, q in transitions:
-        if a is None:
-            eps_adj.setdefault(p, []).append(q)
-        else:
-            sym_adj.setdefault(p, {}).setdefault(a, []).append(q)
-    return eps_adj, sym_adj
+from shared.automaton_common import (
+    format_witness,
+    index_transitions,
+    parse_transitions,
+    read_json_input,
+)
 
 
 def intersection_witness(
@@ -106,10 +48,10 @@ def intersection_witness(
             return ""
 
     # Parse and index transitions
-    t1 = _parse_transitions(A1["Delta"])
-    t2 = _parse_transitions(A2["Delta"])
-    eps1, sym1 = _index_transitions(t1)
-    eps2, sym2 = _index_transitions(t2)
+    t1 = parse_transitions(A1["Delta"])
+    t2 = parse_transitions(A2["Delta"])
+    eps1, sym1 = index_transitions(t1)
+    eps2, sym2 = index_transitions(t2)
 
     # Multi-source BFS init
     queue: deque[Tuple[Any, Any]] = deque(I_prod)
@@ -175,8 +117,25 @@ def intersection_witness(
     return None
 
 
-# -------------------- Demo --------------------
-if __name__ == "__main__":
+def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Intersection emptiness with witness for two (epsilon-)NFAs."
+    )
+    parser.add_argument("--file1", help="JSON file for automaton A1.")
+    parser.add_argument("--file2", help="JSON file for automaton A2.")
+    parser.add_argument(
+        "--pair",
+        help="JSON file containing {\"A1\": ..., \"A2\": ...}.",
+    )
+    parser.add_argument(
+        "--demo",
+        action="store_true",
+        help="Run a small demo pair instead of reading input.",
+    )
+    return parser.parse_args(argv)
+
+
+def _demo_automata() -> Tuple[Dict[str, Any], Dict[str, Any]]:
     A1 = {
         "Q": ["s0", "s1", "s2"],
         "Sigma": ["a", "b"],
@@ -197,11 +156,34 @@ if __name__ == "__main__":
             ["t1", "b", "t2"],
         ],
     }
+    return A1, A2
 
-    w = intersection_witness(A1, A2)
-    if w is None:
-        print("⊥")
-    elif w == "":
-        print("ε")
-    else:
-        print(w)
+
+def _load_automata(args: argparse.Namespace) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    if args.demo:
+        return _demo_automata()
+    if args.pair:
+        data = read_json_input(args.pair)
+        return data["A1"], data["A2"]
+    if args.file1 or args.file2:
+        if not (args.file1 and args.file2):
+            raise ValueError("Provide both --file1 and --file2.")
+        return read_json_input(args.file1), read_json_input(args.file2)
+    data = read_json_input(None)
+    return data["A1"], data["A2"]
+
+
+def main(argv: Sequence[str]) -> int:
+    args = _parse_args(argv)
+    try:
+        A1, A2 = _load_automata(args)
+        witness = intersection_witness(A1, A2)
+    except (KeyError, ValueError) as exc:
+        print(f"Input error: {exc}", file=sys.stderr)
+        return 2
+    print(format_witness(witness))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
