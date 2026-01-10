@@ -12,20 +12,32 @@ ein Zeuge (Beispielwort) ausgegeben.
 
 ## Entscheidungen fuer die Abgabe
 
-- Verwendetes LLM: OpenAI Codex (GPT-5.2-Codex).
-  - Grund: Zum Aufgabenzeitpunkt ist GPT-5.2-Codex das leistungsfaehigste Modell
-    fuer produktives Arbeiten in der IDE (Code-Vervollstaendigung, Refactoring,
-    schnelle Iteration von Implementierungsdetails, Debugging-Hinweise).
-    Dem Modell wurde ein zuvor selbsterarbeiteter, mathematisch exakter
-    Pseudocode (BFS-Erreichbarkeitspruefung mit Vorgaengerrekonstruktion zur
-    Witness-Erzeugung) uebergeben, und die Implementierung wurde daran
-    ausgerichtet. Der Algorithmus selbst folgt dem in der Aufgabenstellung
-    beschriebenen BFS-Vorgehen und wurde im Code nachvollziehbar umgesetzt.
+### Verwendete LLMs
 
-- Programmiersprache: Python.
-  - Grund: gut lesbar, leicht ausfuehrbar, und die BFS-Logik laesst sich knapp
-    und klar ausdruecken; JSON-Eingaben koennen ohne Zusatzbibliotheken geparst
-    werden.
+#### Aufgabe B1: OpenAI Codex (GPT-5.2-Codex).
+**Grund**: Zum Aufgabenzeitpunkt ist GPT-5.2-Codex das leistungsfaehigste Modell
+fuer produktives Arbeiten in der IDE (Code-Vervollstaendigung, Refactoring,
+schnelle Iteration von Implementierungsdetails, Debugging-Hinweise).
+Dem Modell wurde ein zuvor selbsterarbeiteter, mathematisch exakter
+Pseudocode (BFS-Erreichbarkeitspruefung mit Vorgaengerrekonstruktion zur
+Witness-Erzeugung) uebergeben, und die Implementierung wurde daran
+ausgerichtet. Der Algorithmus selbst folgt dem in der Aufgabenstellung
+beschriebenen BFS-Vorgehen und wurde im Code nachvollziehbar umgesetzt.
+
+#### Aufgabe B2: Mistral AI
+**Grund**: Das Modell eignet sich besonders für technische Aufgaben wie Code-Generierung,
+Algorithmen-Entwicklung und präzise Pseudocode-Umsetzung. Der Algorithmus basiert auf
+einem selbsterarbeiteten, mathematisch exakten Pseudocode (BFS-Erreichbarkeitsprüfung
+mit Vorgängerrekonstruktion zur Witness-Erzeugung). Mistral AI unterstützte dabei die
+strukturierte Umsetzung in Python.
+
+#### Aufgabe B3: `<Name>`
+**Grund**: `<Grund>`
+
+#### Programmiersprache: Python.
+**Grund**: gut lesbar, leicht ausfuehrbar, und die BFS-Logik laesst sich knapp
+und klar ausdruecken; JSON-Eingaben koennen ohne Zusatzbibliotheken geparst
+werden.
 
 ## Mathematische Grundlage
 
