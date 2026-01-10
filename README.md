@@ -34,7 +34,9 @@ strukturierte Umsetzung in Python.
 #### Aufgabe B3: `<Name>`
 **Grund**: `<Grund>`
 
-#### Programmiersprache: Python.
+### Programmiersprache
+
+#### Python
 **Grund**: gut lesbar, leicht ausfuehrbar, und die BFS-Logik laesst sich knapp
 und klar ausdruecken; JSON-Eingaben koennen ohne Zusatzbibliotheken geparst
 werden.
