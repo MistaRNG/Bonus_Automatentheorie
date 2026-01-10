@@ -31,8 +31,8 @@ einem selbsterarbeiteten, mathematisch exakten Pseudocode (BFS-Erreichbarkeitspr
 mit Vorgängerrekonstruktion zur Witness-Erzeugung). Mistral AI unterstützte dabei die
 strukturierte Umsetzung in Python.
 
-#### Aufgabe B3: `<Name>`
-**Grund**: `<Grund>`
+#### Aufgabe B3: ChatGPT (Version 5.2)
+**Grund**: ChatGPT wurde eingesetzt, da es sich besonders für die Analyse und Weiterentwicklung algorithmischer Aufgaben eignet, insbesondere im Bereich formaler Sprachen und Automaten. Auf Basis eines selbst entwickelten, mathematisch fundierten Konzepts (Produktautomat mit BFS zur Erreichbarkeitsprüfung und Witness-Rekonstruktion) unterstützte ChatGPT bei der schrittweisen Übertragung in korrekten, gut strukturierten Python-Code. Zusätzlich half das Modell bei der Anpassung der JSON-Schnittstellen, beim Testen mit Beispielautomaten sowie bei der verständlichen Erklärung des Algorithmus und seiner Eigenschaften.
 
 ### Programmiersprache
 
