@@ -167,14 +167,14 @@ Beispiele liegen in `test_inputs/`.
 ### B1
 
 ```bash
-for f in test_inputs/t1_initial_is_final.json \
-         test_inputs/t2_unreachable_final.json \
-         test_inputs/t3_simple_word.json \
-         test_inputs/t4_epsilon_path.json \
-         test_inputs/t5_nfa_branch.json \
-         test_inputs/t6_adj_dict.json \
-         test_inputs/t7_large.json \
-         test_inputs/t8_no_path.json; do
+for f in test_inputs/b1_b2/t1_initial_is_final.json \
+         test_inputs/b1_b2/t2_unreachable_final.json \
+         test_inputs/b1_b2/t3_simple_word.json \
+         test_inputs/b1_b2/t4_epsilon_path.json \
+         test_inputs/b1_b2/t5_nfa_branch.json \
+         test_inputs/b1_b2/t6_adj_dict.json \
+         test_inputs/b1_b2/t7_large.json \
+         test_inputs/b1_b2/t8_no_path.json; do
   python3 B1/b1.py --file "$f"
 done
 ```
@@ -182,14 +182,14 @@ done
 ### B2
 
 ```bash
-for f in test_inputs/t1_initial_is_final.json \
-         test_inputs/t2_unreachable_final.json \
-         test_inputs/t3_simple_word.json \
-         test_inputs/t4_epsilon_path.json \
-         test_inputs/t5_nfa_branch.json \
-         test_inputs/t6_adj_dict.json \
-         test_inputs/t7_large.json \
-         test_inputs/t8_no_path.json; do
+for f in test_inputs/b1_b2/t1_initial_is_final.json \
+         test_inputs/b1_b2/t2_unreachable_final.json \
+         test_inputs/b1_b2/t3_simple_word.json \
+         test_inputs/b1_b2/t4_epsilon_path.json \
+         test_inputs/b1_b2/t5_nfa_branch.json \
+         test_inputs/b1_b2/t6_adj_dict.json \
+         test_inputs/b1_b2/t7_large.json \
+         test_inputs/b1_b2/t8_no_path.json; do
   python3 B2/b2.py --file "$f"
 done
 ```
@@ -197,13 +197,13 @@ done
 ### B3
 
 ```bash
-for f in test_inputs/b3b4_intersection_aa.json \
-         test_inputs/b3b4_intersection_empty.json \
-         test_inputs/b3b4_intersection_epsilon.json \
-         test_inputs/b3b4_intersection_is_epsilon.json \
-         test_inputs/b3b4_inclusion_subset.json \
-         test_inputs/b3b4_inclusion_counterexample.json \
-         test_inputs/b3b4_inclusion_epsilon.json; do
+for f in test_inputs/b3_b4/t9_intersection_aa.json \
+         test_inputs/b3_b4/t10_intersection_empty.json \
+         test_inputs/b3_b4/t11_intersection_epsilon.json \
+         test_inputs/b3_b4/t12_intersection_is_epsilon.json \
+         test_inputs/b3_b4/t13_inclusion_subset.json \
+         test_inputs/b3_b4/t14_inclusion_counterexample.json \
+         test_inputs/b3_b4/t15_inclusion_epsilon.json; do
   python3 B3/b3.py --pair "$f"
 done
 ```
@@ -211,13 +211,13 @@ done
 ### B4
 
 ```bash
-for f in test_inputs/b3b4_intersection_aa.json \
-         test_inputs/b3b4_intersection_empty.json \
-         test_inputs/b3b4_intersection_epsilon.json \
-         test_inputs/b3b4_intersection_is_epsilon.json \
-         test_inputs/b3b4_inclusion_subset.json \
-         test_inputs/b3b4_inclusion_counterexample.json \
-         test_inputs/b3b4_inclusion_epsilon.json; do
+for f in test_inputs/b3_b4/t9_intersection_aa.json \
+         test_inputs/b3_b4/t10_intersection_empty.json \
+         test_inputs/b3_b4/t11_intersection_epsilon.json \
+         test_inputs/b3_b4/t12_intersection_is_epsilon.json \
+         test_inputs/b3_b4/t13_inclusion_subset.json \
+         test_inputs/b3_b4/t14_inclusion_counterexample.json \
+         test_inputs/b3_b4/t15_inclusion_epsilon.json; do
   python3 B4/b4.py --pair "$f"
 done
 ```
