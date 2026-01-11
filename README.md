@@ -101,13 +101,13 @@ python3 B1/b1.py --demo
 Mit JSON-Datei:
 
 ```bash
-python3 B1/b1.py --file test_inputs/t3_simple_word.json
+python3 B1/b1.py --file test_inputs/b1_b2/t3_simple_word.json
 ```
 
 Oder per stdin:
 
 ```bash
-cat test_inputs/t3_simple_word.json | python3 B1/b1.py
+cat test_inputs/b1_b2/t3_simple_word.json | python3 B1/b1.py
 ```
 
 ### B2
@@ -119,7 +119,7 @@ python3 B2/b2.py --demo
 Mit JSON-Datei:
 
 ```bash
-python3 B2/b2.py --file test_inputs/t3_simple_word.json
+python3 B2/b2.py --file test_inputs/b1_b2/t3_simple_word.json
 ```
 
 ### B3
