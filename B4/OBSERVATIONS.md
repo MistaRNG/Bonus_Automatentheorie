@@ -10,10 +10,10 @@
 
 ## Tests (klein bis gross)
 
-- `test_inputs/b3b4_intersection_aa.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
-- `test_inputs/b3b4_intersection_empty.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
-- `test_inputs/b3b4_intersection_epsilon.json` -> Ausgabe: `⊥`. Inklusion haelt.
-- `test_inputs/b3b4_intersection_is_epsilon.json` -> Ausgabe: `⊥`. Inklusion haelt.
-- `test_inputs/b3b4_inclusion_subset.json` -> Ausgabe: `⊥`. Inklusion haelt.
-- `test_inputs/b3b4_inclusion_counterexample.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
-- `test_inputs/b3b4_inclusion_epsilon.json` -> Ausgabe: `ε`. Gegenbeispiel ε gefunden.
+- `test_inputs/b3_b4/t9_intersection_aa.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
+- `test_inputs/b3_b4/t10_intersection_empty.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
+- `test_inputs/b3_b4/t11_intersection_epsilon.json` -> Ausgabe: `⊥`. Inklusion haelt.
+- `test_inputs/b3_b4/t12_intersection_is_epsilon.json` -> Ausgabe: `⊥`. Inklusion haelt.
+- `test_inputs/b3_b4/t13_inclusion_subset.json` -> Ausgabe: `⊥`. Inklusion haelt.
+- `test_inputs/b3_b4/t14_inclusion_counterexample.json` -> Ausgabe: `a`. Gegenbeispiel zur Inklusion gefunden.
+- `test_inputs/b3_b4/t15_inclusion_epsilon.json` -> Ausgabe: `ε`. Gegenbeispiel ε gefunden.
