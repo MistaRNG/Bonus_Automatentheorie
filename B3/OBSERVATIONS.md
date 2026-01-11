@@ -1,31 +1,31 @@
 # Beobachtungen zur Korrektheit
-Der Algorithmus baut den Produktautomaten von \(A_1\) und \(A_2\) nicht explizit, sondern erzeugt Produktzustände \((p,q)\) nur dann, wenn sie durch BFS erreichbar sind.
+Der Algorithmus baut den Produktautomaten von $A_1$ und $A_2$ nicht explizit, sondern erzeugt Produktzustände $(p,q)$ nur dann, wenn sie durch BFS erreichbar sind.
 
-**\(\varepsilon\)-Hüllen-Berechnung:**  
-Für beide Automaten wird zuerst die \(\varepsilon\)-Hülle der Startzustände berechnet; daraus entsteht die initiale Menge  
-\(\varepsilon\text{-closure}(I_1)\times \varepsilon\text{-closure}(I_2)\).  
-Zusätzlich werden während der BFS \(\varepsilon\)-Schritte in jedem Automaten separat als Produktkanten berücksichtigt.
+**$\varepsilon$-Hüllen-Berechnung:**  
+Für beide Automaten wird zuerst die $\varepsilon$-Hülle der Startzustände berechnet; daraus entsteht die initiale Menge  
+$\varepsilon\text{-closure}(I_1)\times \varepsilon\text{-closure}(I_2)$.  
+Zusätzlich werden während der BFS $\varepsilon$-Schritte in jedem Automaten separat als Produktkanten berücksichtigt.
 
 **Initiale Prüfung:**  
-Wenn bereits ein initiales Paar \((p,q)\) mit \(p\in F_1\) und \(q\in F_2\) existiert, ist \(\varepsilon\in L(A_1)\cap L(A_2)\) und das Programm gibt \(\varepsilon\) aus.
+Wenn bereits ein initiales Paar $(p,q)$ mit $p\in F_1$ und $q\in F_2$ existiert, ist $\varepsilon\in L(A_1)\cap L(A_2)$ und das Programm gibt $\varepsilon$ aus.
 
 **BFS über Produktzustände:**  
-Die BFS läuft über Paare \((p,q)\). Es gibt drei Arten von Nachfolgern:
+Die BFS läuft über Paare $(p,q)$. Es gibt drei Arten von Nachfolgern:
 
-- \(\varepsilon\)-Schritte in \(A_1\)
-- \(\varepsilon\)-Schritte in \(A_2\)
-- synchronisierte Symbolschritte \(a\in\Sigma\), die in beiden Automaten gleichzeitig möglich sind
+- $\varepsilon$-Schritte in $A_1$
+- $\varepsilon$-Schritte in $A_2$
+- synchronisierte Symbolschritte $a\in\Sigma$, die in beiden Automaten gleichzeitig möglich sind
 
 **Schnitt-Endzustände:**  
 Ein Produktzustand ist akzeptierend (Schnitt nicht leer), genau dann wenn beide Komponenten akzeptierend sind:  
-\((p,q)\in F_1\times F_2\).
+$(p,q)\in F_1\times F_2$.
 
 **Pfadrekonstruktion:**  
-Zu jedem neu entdeckten Produktzustand wird ein Vorgänger samt konsumiertem Symbol gespeichert. Beim ersten akzeptierenden Produktzustand wird durch Rückverfolgung das Beispielwort rekonstruiert; \(\varepsilon\)-Kanten (Symbol = `None`) tragen kein Zeichen zum Wort bei.
+Zu jedem neu entdeckten Produktzustand wird ein Vorgänger samt konsumiertem Symbol gespeichert. Beim ersten akzeptierenden Produktzustand wird durch Rückverfolgung das Beispielwort rekonstruiert; $\varepsilon$-Kanten (Symbol = `None`) tragen kein Zeichen zum Wort bei.
 
 **Rückgabe:**  
 Wird kein akzeptierender Produktzustand erreicht, dann ist  
-\(L(A_1)\cap L(A_2)=\emptyset\) und es wird \(\bot\) ausgegeben.
+$L(A_1)\cap L(A_2)=\emptyset$ und es wird $\bot$ ausgegeben.
 
 ## Tests (klein bis gross)
 
