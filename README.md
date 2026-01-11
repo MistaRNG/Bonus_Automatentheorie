@@ -136,6 +136,12 @@ Mit JSON-Paar-Datei (Beispiel aus `test_inputs/b3_b4/`):
 python3 B3/b3.py --pair test_inputs/b3_b4/t9_intersection_aa.json
 ```
 
+Alias:
+
+```bash
+python3 B3/b3.py -f test_inputs/b3_b4/t9_intersection_aa.json
+```
+
 Oder als JSON-Paar von stdin:
 
 ```bash
@@ -152,6 +158,12 @@ Mit JSON-Paar-Datei (Beispiel aus `test_inputs/b3_b4/`):
 
 ```bash
 python3 B4/b4.py --pair test_inputs/b3_b4/t14_inclusion_counterexample.json
+```
+
+Alias:
+
+```bash
+python3 B4/b4.py -f test_inputs/b3_b4/t14_inclusion_counterexample.json
 ```
 
 Oder als JSON-Paar von stdin:

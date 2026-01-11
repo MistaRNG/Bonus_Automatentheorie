@@ -121,8 +121,11 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Intersection emptiness with witness for two (epsilon-)NFAs."
     )
-    parser.add_argument("--file1", help="JSON file for automaton A1.")
-    parser.add_argument("--file2", help="JSON file for automaton A2.")
+    parser.add_argument(
+        "-f",
+        "--file",
+        help="Alias for --pair (single JSON containing A1 and A2).",
+    )
     parser.add_argument(
         "--pair",
         help="JSON file containing {\"A1\": ..., \"A2\": ...}.",
@@ -162,13 +165,12 @@ def _demo_automata() -> Tuple[Dict[str, Any], Dict[str, Any]]:
 def _load_automata(args: argparse.Namespace) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     if args.demo:
         return _demo_automata()
+    if args.file:
+        data = read_json_input(args.file)
+        return data["A1"], data["A2"]
     if args.pair:
         data = read_json_input(args.pair)
         return data["A1"], data["A2"]
-    if args.file1 or args.file2:
-        if not (args.file1 and args.file2):
-            raise ValueError("Provide both --file1 and --file2.")
-        return read_json_input(args.file1), read_json_input(args.file2)
     data = read_json_input(None)
     return data["A1"], data["A2"]
 
