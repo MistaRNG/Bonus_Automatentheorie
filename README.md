@@ -14,7 +14,7 @@ ein Zeuge (Beispielwort) ausgegeben.
 
 ### Verwendete LLMs
 
-#### Aufgabe B1: OpenAI Codex (GPT-5.2-Codex).
+#### Aufgabe B1 & B4: OpenAI Codex (GPT-5.2-Codex).
 **Grund**: Zum Aufgabenzeitpunkt ist GPT-5.2-Codex das leistungsfaehigste Modell
 fuer produktives Arbeiten in der IDE (Code-Vervollstaendigung, Refactoring,
 schnelle Iteration von Implementierungsdetails, Debugging-Hinweise).
@@ -48,7 +48,9 @@ werden.
 - `B3/b3.py`: Leerheitsproblem fuer den Schnitt zweier Automaten (Zeuge)
 - `B4/b4.py`: Inklusionspruefung mit Gegenbeispiel (Zeuge)
 - `shared/automaton_common.py`: gemeinsame Hilfsfunktionen (Parsing, ε, Ausgabe)
-- `test_inputs/`: JSON-Beispiele fuer B1/B2 sowie gemeinsame Paar-Beispiele fuer B3/B4
+- `test_inputs/`: JSON-Beispiele
+- `test_inputs/b1_b2/`: Einzelautomaten fuer B1/B2
+- `test_inputs/b3_b4/`: Paar-Dateien fuer B3/B4
 
 ## Dateiformat (JSON)
 
@@ -128,16 +130,16 @@ python3 B2/b2.py --file test_inputs/b1_b2/t3_simple_word.json
 python3 B3/b3.py --demo
 ```
 
-Mit zwei JSON-Dateien:
+Mit JSON-Paar-Datei (Beispiel aus `test_inputs/b3_b4/`):
 
 ```bash
-python3 B3/b3.py --file1 path/to/A1.json --file2 path/to/A2.json
+python3 B3/b3.py --pair test_inputs/b3_b4/t9_intersection_aa.json
 ```
 
 Oder als JSON-Paar von stdin:
 
 ```bash
-cat pair.json | python3 B3/b3.py
+cat test_inputs/b3_b4/t9_intersection_aa.json | python3 B3/b3.py
 ```
 
 ### B4
@@ -146,21 +148,21 @@ cat pair.json | python3 B3/b3.py
 python3 B4/b4.py --demo
 ```
 
-Mit zwei JSON-Dateien:
+Mit JSON-Paar-Datei (Beispiel aus `test_inputs/b3_b4/`):
 
 ```bash
-python3 B4/b4.py --file1 path/to/A1.json --file2 path/to/A2.json
+python3 B4/b4.py --pair test_inputs/b3_b4/t14_inclusion_counterexample.json
 ```
 
 Oder als JSON-Paar von stdin:
 
 ```bash
-cat pair.json | python3 B4/b4.py
+cat test_inputs/b3_b4/t14_inclusion_counterexample.json | python3 B4/b4.py
 ```
 
 ## Beispieleingaben
 
-Beispiele liegen in `test_inputs/`.
+Beispiele liegen in `test_inputs/b1_b2/` (B1/B2) und `test_inputs/b3_b4/` (B3/B4).
 
 ## Testdaten pro Aufgabe (copy-paste)
 
